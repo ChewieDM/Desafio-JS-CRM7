@@ -38,6 +38,25 @@ app.put('/users/:id', (req, res) => {
     res.json(users[index]);
 });
 
+// fetch user by ID
+app.get('/users/:id', (req, res) => {
+    const id = parseInt(req.params.id);
+    const user = users.find(user => user.id === id);
+
+    if (!user) {
+        return res.status(404).json({ error: 'User not Found' });
+    }
+
+    res.json(user);
+});
+
+// remove user by ID
+app.delete('/users/:id', (req, res) => {
+    const id = parseInt(req.params.id);
+    users = users.filter(user => user.id !== id);
+    res.json({ message: 'User removed Successfully' });
+});
+
 // Start server
 app.listen(port, () => {
     console.log(`server started on http://localhost:${port}`);
