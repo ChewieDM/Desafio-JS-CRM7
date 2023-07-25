@@ -23,6 +23,21 @@ app.post('/users', (req, res) => {
     res.status(201).json(newUser);
 });
 
+// update user
+app.put('/users/:id', (req, res) => {
+    const id = parseInt(req.params.id);
+    const updatedUser = req.body;
+
+    let index = users.findIndex(user => user.id === id);
+
+    if (index === -1) {
+        return res.status(404).json({ error: 'User not Found' });
+    }
+
+    users[index] = { ...users[index], ...updatedUser };
+    res.json(users[index]);
+});
+
 // Start server
 app.listen(port, () => {
     console.log(`server started on http://localhost:${port}`);
